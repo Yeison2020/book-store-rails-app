@@ -3,8 +3,9 @@ class BooksController < ApplicationController
     @books = Book.all
     end
     def show
-        @book = Book.find(params[:id])
-        end
+       @book = Book.find(params[:id])
+       render json :@book
+    end
             
     def new
     @book = Book.new
@@ -18,14 +19,18 @@ class BooksController < ApplicationController
         
 
     def create
+
     @book = Book.new(book_params)
+
     if @book.save
     redirect_to :action => 'list'
     else
     @subjects = Subject.all
     render :action => 'new'
     end
+
     end
+
     def edit
     @book = Book.find(params[:id]) 
     @subjects = Subject.all
@@ -34,6 +39,7 @@ class BooksController < ApplicationController
     def book_param
     params.require(:book).permit(:title, :price, :subject_id, :description)
     end
+
     def update
     @book = Book.find(params[:id])
     
